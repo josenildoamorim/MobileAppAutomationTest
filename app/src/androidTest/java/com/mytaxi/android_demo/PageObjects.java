@@ -12,7 +12,23 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class PageObjects {
 
+    public String username;
+    public String password;
+    public String wrongUsername;
+    public String wrongPassword;
+    public String driverName;
+    public String search;
+
     protected static final int BOTH_FIELDS_ID = -1;
+
+    protected void setData(){
+        username = "whiteelephant261";
+        password = "video1";
+        wrongUsername = "blueelephant123";
+        wrongPassword = "audio2";
+        driverName = "Sarah Friedrich";
+        search = "sa";
+    }
 
     protected void typeCredentials(String username, String password){
         onView(withId(R.id.edt_username)).perform(typeText(username));
@@ -36,8 +52,10 @@ public class PageObjects {
         onView(withId(R.id.fab)).perform(click());
     }
 
-    protected void callDriver(){
+    protected void clickCallDriverBtn(){
         onView(withId(R.id.fab)).perform(click());
+
+
     }
 }
 
