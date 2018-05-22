@@ -30,11 +30,12 @@ public class LoginTests extends PageObjects {
 
     @Before
     public void setCredentials() {
-        setData();
+        setup();
     }
 
     @Test
     public void testA_verifyInitialState() {
+        logout();
         onView(withId(R.id.edt_username)).check(matches(isDisplayed()));
         onView(withId(R.id.edt_password)).check(matches(isDisplayed()));
         onView(withId(R.id.btn_login)).check(matches(isDisplayed()));
@@ -51,29 +52,29 @@ public class LoginTests extends PageObjects {
     @Test
     public void testC_tryLoginWithBlankUsername() throws InterruptedException {
         typeEmptyCredentials(R.id.edt_password, password);
-
         Thread.sleep(2000);
+
         onView(withText(R.string.message_login_fail)).check(matches(isDisplayed()));
     }
 
     @Test
     public void testD_tryLoginWithBlankPassword() throws InterruptedException {
         typeEmptyCredentials(R.id.edt_username, username);
-
         Thread.sleep(2000);
+
         onView(withText(R.string.message_login_fail)).check(matches(isDisplayed()));
     }
 
     @Test
     public void testE_tryLoginWithAllBlankFields() throws InterruptedException {
-        typeEmptyCredentials(BOTH_FIELDS_ID, "");
-
+        typeEmptyCredentials(BOTH_FIELDS_ID,"");
         Thread.sleep(2000);
+
         onView(withText(R.string.message_login_fail)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void test_FloginSuccessful() throws InterruptedException {
+    public void testF_loginSuccessful() throws InterruptedException {
         typeCredentials(username, password);
         Thread.sleep(2000);
 
