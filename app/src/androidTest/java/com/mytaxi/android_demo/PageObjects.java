@@ -65,5 +65,12 @@ public class PageObjects {
         onView(withId(R.id.btn_login)).check(matches(isDisplayed()));
     }
 
+    protected void selectAnSearchedDriver() {
+        typeAnSearch(search);
+        selectDriver(driverName);
+
+        onView(withId(R.id.textViewDriverName)).check(matches(withText(driverName)));
+    }
+
 }
 

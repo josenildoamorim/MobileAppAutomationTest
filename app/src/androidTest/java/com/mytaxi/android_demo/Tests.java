@@ -1,5 +1,7 @@
 package com.mytaxi.android_demo;
 
+import android.content.Intent;
+import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.GrantPermissionRule;
 
@@ -14,12 +16,17 @@ import org.junit.runners.MethodSorters;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.core.AllOf.allOf;
+
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class LoginTests extends PageObjects {
+public class Tests extends PageObjects {
 
     @Rule
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION);
@@ -35,7 +42,6 @@ public class LoginTests extends PageObjects {
 
     @Test
     public void testA_verifyInitialState() {
-        logout();
         onView(withId(R.id.edt_username)).check(matches(isDisplayed()));
         onView(withId(R.id.edt_password)).check(matches(isDisplayed()));
         onView(withId(R.id.btn_login)).check(matches(isDisplayed()));
@@ -79,5 +85,16 @@ public class LoginTests extends PageObjects {
         Thread.sleep(2000);
 
         onView(withText(R.string.message_login_fail)).check(doesNotExist());
+    }
+
+    @Test
+    public void testG_callToAnSelectedDriver() throws InterruptedException {
+        Intents.init();
+
+        selectAnSearchedDriver();
+        clickCallDriverBtn();
+
+        intended(allOf(hasAction(Intent.ACTION_DIAL), toPackage("com.google.android.dialer")));
+        Intents.release();
     }
 }
