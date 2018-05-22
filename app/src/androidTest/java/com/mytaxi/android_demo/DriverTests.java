@@ -49,7 +49,7 @@ public class DriverTests extends PageObjects {
 
     public void selectAnSearchedDriver() throws InterruptedException {
         typeCredentials(username, password);
-        Thread.sleep(2000);
+        Thread.sleep(5000);
         typeAnSearch(search);
         Thread.sleep(1000);
         selectDriver(driverName);
