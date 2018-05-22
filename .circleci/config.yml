@@ -5,8 +5,8 @@ jobs:
       - image: circleci/android:api-26-alpha
     steps:
       - run:
-          name: List emulators
-          command: sdkmanager --list --verbose | grep system-images
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
       - run:
           name: Setup emulator
           command: sdkmanager "system-images;android-26;google_apis;x86"
@@ -15,8 +15,16 @@ jobs:
           command: echo no | avdmanager -v create avd -n test -k "system-images;android-26;google_apis;x86"
       - run:
           name: Launch emulator
-          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
+          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
           background: true
+      - run:
+          name: Wait emulator
+          command: |
+          # wait for it to have booted
+          circle-android wait-for-boot
+          # unlock the emulator screen
+          sleep 30
+          adb shell input keyevent 82
       - run:
           name: Run Tests
           command: ./gradlew connectedAndroidTest
