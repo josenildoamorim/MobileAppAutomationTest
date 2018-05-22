@@ -10,6 +10,8 @@ jobs:
       - run:
           name: Setup emulator
           command: sdkmanager "system-images;android-24;default;armeabi-v7a" --verbose
+      - run:
+          name: Create emulator
           command: avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
       - run:
           name: Launch emulator
