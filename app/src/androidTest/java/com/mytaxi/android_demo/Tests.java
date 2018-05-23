@@ -1,11 +1,9 @@
 package com.mytaxi.android_demo;
 
 import android.content.Intent;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.GrantPermissionRule;
-import android.support.test.uiautomator.UiDevice;
 
 import com.mytaxi.android_demo.activities.MainActivity;
 
@@ -13,14 +11,8 @@ import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestRule;
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
 import org.junit.runners.MethodSorters;
 
-import java.io.File;
-
-import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -42,23 +34,6 @@ public class Tests extends PageObjects {
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(
             MainActivity.class);
-
-    @Rule
-    public TestRule watcher = new TestWatcher() {
-        @Override
-        protected void failed(Throwable e, Description description) {
-            // Save to external storage (usually /sdcard/screenshots)
-            File path = new File("/home/circleci/code/app/build/eports/androidTests/connected/screenshots/" + getTargetContext().getPackageName());
-            if (!path.exists()) {
-                path.mkdirs();
-            }
-
-            // Take advantage of UiAutomator screenshot method
-            UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-            String filename = description.getClassName() + "-" + description.getMethodName() + ".png";
-            device.takeScreenshot(new File(path, filename));
-        }
-    };
 
     @Before
     public void setCredentials() {
