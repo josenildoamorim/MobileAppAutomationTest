@@ -1,7 +1,6 @@
 package com.mytaxi.android_demo;
 
 import android.content.Intent;
-import android.os.Environment;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
@@ -49,8 +48,7 @@ public class Tests extends PageObjects {
         @Override
         protected void failed(Throwable e, Description description) {
             // Save to external storage (usually /sdcard/screenshots)
-            File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                    + "/screenshots/" + getTargetContext().getPackageName());
+            File path = new File("/home/circleci/code/app/build/eports/androidTests/connected/screenshots/" + getTargetContext().getPackageName());
             if (!path.exists()) {
                 path.mkdirs();
             }
